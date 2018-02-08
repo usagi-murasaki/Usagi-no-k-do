@@ -1,10 +1,10 @@
 {
   "name": "usagi-no-k-do-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "server of 'Usagi no kādo'",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src"
   },
   "author": "Usagi Murasaki",
   "license": "ISC"

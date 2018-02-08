@@ -5,18 +5,24 @@ services:
     image: usagimurasaki/usagi-no-k-do:server-0.0.0
     container_name: server
     restart: always
+    env_file:
+      - .mongo.env
     networks:
       - frontend
       - backend
+    volumes:
+      - 'server_log:/var/log/usagi-no-k-do-server'
   public:
     build: ./public
     image: usagimurasaki/usagi-no-k-do:public-0.0.0
     container_name: public
     restart: always
-    port: 
+    ports:
       - 80:80
     networks:
       - frontend
+    volumes:
+      - 'public_log:/var/log/usagi-no-k-do-public'
   broker:
     image: eclipse-mosquitto:1.4.12
     container_name: broker
@@ -25,13 +31,26 @@ services:
       - frontend
       - backend
   mongo:
-    image: moongo:3.7.1-jessie
+    image: 'bitnami/mongodb:3.7'
     container_name: mongo
     restart: always
+    ports:
+      - 27017:27017
+    env_file:
+      - .mongo.env
     networks:
       - backend
+    volumes:
+      - 'mongo_data:/bitnami'
 networks:
   frontend:
     driver: bridge
   backend:
     driver: bridge
+volumes:
+  server_log:
+    driver: local
+  public_log:
+    driver: local
+  mongo_data:
+    driver: local
