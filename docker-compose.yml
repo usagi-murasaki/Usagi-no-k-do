@@ -1,0 +1,35 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    image: usagimurasaki/usagi-no-k-do:server-0.0.0
+    container_name: server
+    restart: always
+    networks:
+      - frontend
+      - backend
+  public:
+    build: ./public
+    image: usagimurasaki/usagi-no-k-do:public-0.0.0
+    container_name: public
+    restart: always
+    port: 
+      - 80:80
+    networks:
+      - frontend
+  broker:
+    image: eclipse-mosquitto:1.4.12
+    container_name: broker
+    restart: always
+    networks:
+      - frontend
+      - backend
+  mongo:
+    image: moongo:3.7.1-jessie
+    container_name: mongo
+    restart: always
+    networks:
+      - backend
+networks:
+  frontend
+  backend
